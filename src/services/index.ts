@@ -1,0 +1,1 @@
+// exportar todos as integrações com API de serviços externos
