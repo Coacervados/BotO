@@ -1,5 +1,0 @@
-{
-    "watch": ["src"],
-    "etx": "ts,json",
-    "exec": "ts-node ./src/server.ts"
-}
