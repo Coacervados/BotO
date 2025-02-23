@@ -1,17 +1,9 @@
 import { Whatsapp, create } from '@wppconnect-team/wppconnect';
 
 export class WhatsappService {
-    private session: string;
-    private phoneNumber: string;
     private client: Whatsapp;
 
-    private constructor(
-        session: string,
-        phoneNumber: string,
-        client: Whatsapp
-    ) {
-        this.session = session;
-        this.phoneNumber = phoneNumber;
+    private constructor(client: Whatsapp) {
         this.client = client;
     }
 
@@ -19,14 +11,11 @@ export class WhatsappService {
         return await this.client?.getQrCode();
     }
 
-    public static async create(session: string, phoneNumber: string) {
+    public static async create(session?: string, phoneNumber?: string) {
         try {
-            const client = await create({
-                session: session,
-                phoneNumber: phoneNumber,
-            });
+            const client = await create({ session, phoneNumber });
 
-            return new WhatsappService(session, phoneNumber, client);
+            return new WhatsappService(client);
         } catch (error) {
             throw new Error(
                 `Error initializing client with session "${session}": ${error}`
@@ -80,9 +69,5 @@ export class WhatsappService {
             content: message.content,
             isMedia: message.isMedia,
         }));
-    }
-
-    public get phone(): string {
-        return this.phoneNumber;
     }
 }
