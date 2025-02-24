@@ -1,1 +1,1 @@
-// importar todas as intergrações com libs externas
+export * from './prisma';
