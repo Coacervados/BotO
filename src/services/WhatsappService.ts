@@ -24,34 +24,24 @@ export class WhatsappService {
     }
 
     async sendText(to: string, message: string) {
-        if (!this.client) return;
-
         const { chatId, id } = await this.client.sendText(to, message, {});
         return { chatId, messageId: id };
     }
 
     async sendImage(to: string, imgPath: string) {
-        if (!this.client) return;
-
         const { id } = await this.client.sendImage(to, imgPath);
         return { messageId: id };
     }
 
     async sendFile(to: string, filePath: string) {
-        if (!this.client) return;
-
         await this.client.sendFile(to, filePath);
     }
 
     async deleteMessage(chatId: string, messageId: string) {
-        if (!this.client) return;
-
         return { status: await this.client.deleteMessage(chatId, messageId) };
     }
 
     async editMessage(messageId: string, newMessage: string) {
-        if (!this.client) return;
-
         const { chatId, id } = await this.client.editMessage(
             messageId,
             newMessage
@@ -60,8 +50,6 @@ export class WhatsappService {
     }
 
     async getChatMessages(chatId: string) {
-        if (!this.client) return;
-
         const messages = await this.client.getMessages(chatId);
 
         return messages.map((message) => ({
