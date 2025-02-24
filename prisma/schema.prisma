@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  phoneNumber      String             @unique
+  name             String
+  OmniChannel      OmniChannel?
+  TelegramMessage  TelegramMessage[]
+  Whatsappessage   WhatsappMessage[]
+  Chat             Chat[]
+  Customer         Customer[]
+  InstagramMessage InstagramMessage[]
+}
+
+model Customer {
+  id          Int     @id @default(autoincrement())
+  name        String
+  userId      Int
+  phoneNumber String?
+  ig          String?
+  sendFrom    String
+  user        User    @relation(fields: [userId], references: [id])
+  Chat        Chat?
+}
+
+model OmniChannel {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+  Chat   Chat[]
+}
+
+model Chat {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  customerId    Int         @unique
+  omnichannelId Int
+  omnichannel   OmniChannel @relation(fields: [omnichannelId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  sender        Customer    @relation(fields: [customerId], references: [id])
+}
+
+model WhatsappMessage {
+  id                  Int     @id @default(autoincrement())
+  content             String
+  customerPhoneNumber String?
+  sendByUser          Boolean
+  user                User    @relation(fields: [userId], references: [id])
+  userId              Int
+}
+
+model TelegramMessage {
+  id                  Int     @id @default(autoincrement())
+  content             String
+  customerPhoneNumber String?
+  sendByUser          Boolean
+  user                User    @relation(fields: [userId], references: [id])
+  userId              Int
+}
+
+model InstagramMessage {
+  id         Int     @id @default(autoincrement())
+  content    String
+  customerIg String?
+  sendByUser Boolean
+  user       User    @relation(fields: [userId], references: [id])
+  userId     Int
+}
