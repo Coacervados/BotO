@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { prisma } from '../libs';
 
 export class UsersService {
@@ -20,6 +21,23 @@ export class UsersService {
     findByPhoneNumber(phoneNumber: string) {
         return prisma.user.findFirst({
             where: { phoneNumber },
+        });
+    }
+
+    create({ email, name, phoneNumber }: User) {
+        return prisma.user.create({
+            data: {
+                email,
+                name,
+                phoneNumber,
+            },
+        });
+    }
+
+    update({ id, email, name, phoneNumber }: Partial<User>) {
+        return prisma.user.update({
+            where: { id },
+            data: { email, name, phoneNumber },
         });
     }
 }
