@@ -25,7 +25,20 @@ export class GeminiService {
 
         const context = history ? `${history.sender.name}: ${message}`:`User: ${message}`; 
         const result = await this.model.generativeContext(context);
-        return result.response.text();
+
+	await prisma.chat.upsert({
+		where: {customerId},
+		update: {},
+		create: {
+			userId,
+			customerId,
+			//não entendi direito a ideia do omnichannel no código
+			//haverá mudanças
+			omnichannelId: 1
+		}
+	});
+
+	return result.response.text();
     }
 }
 
