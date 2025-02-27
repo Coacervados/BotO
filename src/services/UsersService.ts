@@ -24,7 +24,12 @@ export class UsersService {
         });
     }
 
-    create({ email, name, phoneNumber, password }: User) {
+    create({
+        email,
+        name,
+        phoneNumber,
+        password,
+    }: Pick<User, 'email' | 'name' | 'password' | 'phoneNumber'>) {
         return prisma.user.create({
             data: {
                 email,
