@@ -1,5 +1,4 @@
-import { Server } from '../packages';
-
+import { Server } from 'damex';
 import cors from 'cors';
 import 'dotenv/config';
 
