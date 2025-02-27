@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Get, Patch } from '../../packages';
+import { Controller, Get, Patch } from 'damex';
 import { UsersService } from '../services';
 
 @Controller('/users')
