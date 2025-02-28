@@ -2,3 +2,4 @@
 node_modules
 build
 tokens
+prisma/database/dev.db
