@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
-import { Controller, Get, Patch } from 'damex';
+import { Controller, Delete, Get, Patch } from 'damex';
 import { UsersService } from '../services';
+import { User } from '@prisma/client';
 
 @Controller('/users')
 export class UsersController {
-    private readonly service = new UsersService();
-
     @Get()
     async getAll(req: Request, res: Response) {
-        const users = await this.service.all();
+        const users = await UsersService.all();
 
         res.status(200).send(users);
     }
@@ -17,31 +16,49 @@ export class UsersController {
     async getById(req: Request, res: Response) {
         const id = parseInt(req.params.id);
 
-        if (isNaN(id)) {
-            res.status(401).send('Invalid Id');
+        const user = await UsersService.findById(id);
+
+        if (!user) {
+            res.status(404).send('User not found');
             return;
         }
 
-        const users = await this.service.findById(id);
+        res.status(200).send(user);
+    }
 
-        res.status(200).send(users);
+    @Delete('/:id')
+    async delete(req: Request, res: Response) {
+        const id = parseInt(req.params.id);
+
+        const user = await UsersService.findById(id);
+
+        if (!user) {
+            res.status(404).send('User not found');
+            return;
+        }
+
+        await UsersService.delete(id);
+
+        res.status(201).send('Deleted user');
     }
 
     @Patch('/:id')
     async updateUser(req: Request, res: Response) {
         const id = parseInt(req.params.id);
+        const dataToChange = req.body as Partial<User>;
 
-        if (isNaN(id)) {
-            res.status(401).send('Insert a valid Id');
+        const users = await UsersService.findById(id);
+
+        if (!users) {
+            res.status(404).send('User not found');
             return;
         }
 
-        const users = await this.service.findById(id);
+        const updatedUser = await UsersService.update({
+            id,
+            ...dataToChange,
+        });
 
-        if (!users) {
-            res.status(404).send('USer not found');
-        }
-
-        res.status(200).send(users);
+        res.status(200).send(updatedUser);
     }
 }
