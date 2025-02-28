@@ -2,29 +2,29 @@ import { User } from '@prisma/client';
 import { prisma } from '../libs';
 
 export class UsersService {
-    all() {
+    static all() {
         return prisma.user.findMany();
     }
 
-    findById(id: number) {
+    static findById(id: number) {
         return prisma.user.findFirst({
             where: { id },
         });
     }
 
-    findByEmail(email: string) {
+    static findByEmail(email: string) {
         return prisma.user.findFirst({
             where: { email },
         });
     }
 
-    findByPhoneNumber(phoneNumber: string) {
+    static findByPhoneNumber(phoneNumber: string) {
         return prisma.user.findFirst({
             where: { phoneNumber },
         });
     }
 
-    create({
+    static create({
         email,
         name,
         phoneNumber,
@@ -40,10 +40,16 @@ export class UsersService {
         });
     }
 
-    update({ id, email, name, phoneNumber }: Partial<User>) {
+    static update({ id, email, name, phoneNumber }: Partial<User>) {
         return prisma.user.update({
             where: { id },
             data: { email, name, phoneNumber },
+        });
+    }
+
+    static delete(id: number) {
+        return prisma.user.delete({
+            where: { id },
         });
     }
 }
