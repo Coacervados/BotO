@@ -52,4 +52,25 @@ export class UsersService {
             where: { id },
         });
     }
+
+    static enableWhatsapp(id: number) {
+        return prisma.user.update({
+            where: { id },
+            data: { hasWhatsapp: true },
+        });
+    }
+
+    static enableTelegram(id: number) {
+        return prisma.user.update({
+            where: { id },
+            data: { hasInstagram: true },
+        });
+    }
+
+    static enableInstagram(id: number) {
+        return prisma.user.update({
+            where: { id },
+            data: { hasTelegram: true },
+        });
+    }
 }
