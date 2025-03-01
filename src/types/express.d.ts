@@ -1,4 +1,5 @@
 import { WhatsappClientService } from '../services';
+import { UserRequestData } from './UserRequestData';
 
 export declare global {
     namespace Express {
@@ -6,6 +7,7 @@ export declare global {
             client: {
                 whatsapp: WhatsappClientService;
             };
+            user: UserRequestData;
         }
     }
 }
