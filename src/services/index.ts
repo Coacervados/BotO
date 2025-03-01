@@ -1,2 +1,2 @@
-export * from './WhatsappService';
+export * from './WhatsappClientService';
 export * from './UsersService';

@@ -1,6 +1,6 @@
 import { Whatsapp, create } from '@wppconnect-team/wppconnect';
 
-export class WhatsappService {
+export class WhatsappClientService {
     private client: Whatsapp;
 
     private constructor(client: Whatsapp) {
@@ -15,7 +15,7 @@ export class WhatsappService {
         try {
             const client = await create({ session, phoneNumber });
 
-            return new WhatsappService(client);
+            return new WhatsappClientService(client);
         } catch (error) {
             throw new Error(
                 `Error initializing client with session "${session}": ${error}`

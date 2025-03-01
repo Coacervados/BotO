@@ -1,10 +1,10 @@
-import { WhatsappService } from '../services';
+import { WhatsappClientService } from '../services';
 
 export declare global {
     namespace Express {
         interface Request {
             client: {
-                whatsapp: WhatsappService;
+                whatsapp: WhatsappClientService;
             };
         }
     }

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { WhatsappService } from '../services';
+import { WhatsappClientService } from '../services';
 
 export class WhatsappClientMiddleware {
     static async use(req: Request, res: Response, next: NextFunction) {
@@ -11,7 +11,7 @@ export class WhatsappClientMiddleware {
             }
 
             if (!req.client.whatsapp) {
-                req.client.whatsapp = await WhatsappService.create(
+                req.client.whatsapp = await WhatsappClientService.create(
                     session,
                     phoneNumber
                 );
