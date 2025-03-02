@@ -11,17 +11,15 @@ datasource db {
 }
 
 model User {
-  id               Int                @id @default(autoincrement())
-  email            String             @unique
-  phoneNumber      String             @unique
-  name             String
-  password         String
-  OmniChannel      OmniChannel?
-  TelegramMessage  TelegramMessage[]
-  Whatsappessage   WhatsappMessage[]
-  Chat             Chat[]
-  Customer         Customer[]
-  InstagramMessage InstagramMessage[]
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  phoneNumber String       @unique
+  name        String
+  password    String
+  OmniChannel OmniChannel?
+  Message     Message[]
+  Chat        Chat[]
+  Customer    Customer[]
 }
 
 model Customer {
@@ -50,31 +48,17 @@ model Chat {
   omnichannel   OmniChannel @relation(fields: [omnichannelId], references: [id])
   user          User        @relation(fields: [userId], references: [id])
   sender        Customer    @relation(fields: [customerId], references: [id])
+  Message       Message[]
 }
 
-model WhatsappMessage {
+model Message {
   id                  Int     @id @default(autoincrement())
   content             String
   customerPhoneNumber String?
   sendByUser          Boolean
+  from                String
   user                User    @relation(fields: [userId], references: [id])
   userId              Int
-}
-
-model TelegramMessage {
-  id                  Int     @id @default(autoincrement())
-  content             String
-  customerPhoneNumber String?
-  sendByUser          Boolean
-  user                User    @relation(fields: [userId], references: [id])
-  userId              Int
-}
-
-model InstagramMessage {
-  id         Int     @id @default(autoincrement())
-  content    String
-  customerIg String?
-  sendByUser Boolean
-  user       User    @relation(fields: [userId], references: [id])
-  userId     Int
+  chat                Chat    @relation(fields: [chatId], references: [id])
+  chatId              Int
 }

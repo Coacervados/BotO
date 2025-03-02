@@ -1,1 +1,2 @@
-// exportações dos controllers
+export * from './UsersController';
+export * from './AuthController';
