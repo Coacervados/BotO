@@ -1,14 +1,15 @@
 import { IgApiClient } from 'instagram-private-api';
-import { dotenv } from 'dotenv';
+import { prisma } from '../libs';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 export class InstagramService {
-	private ig = IgAPiClient;
+	private ig: IgApiClient;
 	
 	constructor(){
 		this.ig = new IgApiClient();
-		this.ig.state.ganerateDevice(process.env.IG_USERNAME);
+		this.ig.state.generateDevice(process.env.IG_USERNAME!);
 	}
 
 	async login() {
@@ -16,7 +17,7 @@ export class InstagramService {
 	}
 
 	async inbox() {
-	
+
 	}
 }
 
