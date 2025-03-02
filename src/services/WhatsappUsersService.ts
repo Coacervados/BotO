@@ -4,7 +4,6 @@ import { UsersService } from './UsersService';
 export class WhatsappUsersService {
     static async enableWhatsapp({
         id,
-        email,
         phoneNumber,
     }: Pick<User, 'id' | 'phoneNumber' | 'email'>) {
         const user = await UsersService.findById(id);
@@ -22,6 +21,7 @@ export class WhatsappUsersService {
             };
         }
 
+        await UsersService.update(id, { phoneNumber });
         await UsersService.enableWhatsapp(user.id);
         return { error: undefined };
     }

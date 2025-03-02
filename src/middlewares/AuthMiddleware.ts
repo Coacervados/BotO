@@ -14,7 +14,6 @@ export async function AuthMiddleware(
             id: 999,
             name: 'Test Man',
             email: 'teste@gmail.com',
-            phoneNumber: 'xxxxxxxxxxxx',
         };
         next();
         return;

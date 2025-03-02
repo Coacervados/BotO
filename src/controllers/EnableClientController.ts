@@ -8,7 +8,13 @@ import { WhatsappUsersService } from '../services';
 export class EnableClientController {
     @Post('/whatsapp')
     async enableWhatsapp(req: Request, res: Response) {
-        const { id, email, phoneNumber } = req.user;
+        const { phoneNumber } = req.body as { phoneNumber: string };
+        const { id, email } = req.user;
+
+        if (!phoneNumber) {
+            res.status(400).send('phoneNumber is required');
+            return;
+        }
 
         const { error } = await WhatsappUsersService.enableWhatsapp({
             id,

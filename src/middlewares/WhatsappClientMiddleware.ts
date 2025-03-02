@@ -13,7 +13,7 @@ export async function WhatsappClientMiddleware(
             res.status(404).send('User not found');
         }
 
-        if (!user?.hasWhatsapp) {
+        if (!user?.hasWhatsapp || !user.phoneNumber) {
             next();
             return;
         }
@@ -22,7 +22,7 @@ export async function WhatsappClientMiddleware(
 
         req.client.whatsapp = await WhatsappClientService.create(
             session,
-            user?.phoneNumber
+            user.phoneNumber
         );
 
         next();
