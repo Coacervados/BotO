@@ -9,6 +9,17 @@ export async function AuthMiddleware(
 ) {
     const token = req.headers.authorization;
 
+    if (process.env.ENVIRONMENT === 'development') {
+        req.user = {
+            id: 999,
+            name: 'Test Man',
+            email: 'teste@gmail.com',
+            phoneNumber: 'xxxxxxxxxxxx',
+        };
+        next();
+        return;
+    }
+
     if (!token) {
         res.status(401).send('Unauthorized: missing authentication token');
         return;
