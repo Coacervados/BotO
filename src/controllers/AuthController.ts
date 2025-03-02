@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { Controller, Post } from 'damex';
 import { Request, Response } from 'express';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services';
 
 @Controller('/auth')
 export class AuthController {
