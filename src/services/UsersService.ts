@@ -27,20 +27,18 @@ export class UsersService {
     static create({
         email,
         name,
-        phoneNumber,
         password,
-    }: Pick<User, 'email' | 'name' | 'password' | 'phoneNumber'>) {
+    }: Pick<User, 'email' | 'name' | 'password'>) {
         return prisma.user.create({
             data: {
                 email,
                 name,
-                phoneNumber,
                 password,
             },
         });
     }
 
-    static update({ id, email, name, phoneNumber }: Partial<User>) {
+    static update(id: number, { email, name, phoneNumber }: Partial<User>) {
         return prisma.user.update({
             where: { id },
             data: { email, name, phoneNumber },
