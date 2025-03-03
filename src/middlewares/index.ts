@@ -1,1 +1,2 @@
-// exportação de todos middlewares
+export * from './AuthMiddleware';
+export * from './WhatsappClientMiddleware';
