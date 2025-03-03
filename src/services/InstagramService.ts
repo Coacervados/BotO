@@ -45,7 +45,7 @@ export class InstagramService {
 			}
 		});
 
-		// Preciso de uma lógica para achar o dono do  omnichannel correspondente
+		// Preciso de uma lógica para achar o dono do omnichannel correspondente
 		const omnichannel = await prisma.omniChannel.findFirst();
 
 		if (!omnichannel) {
