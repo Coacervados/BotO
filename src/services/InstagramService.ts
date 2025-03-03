@@ -66,7 +66,7 @@ export class InstagramService {
 
 		const res = await GeminiService.chat(customer.userId, customer.id, text);
 
-		await this
+		await this.sendMsg(threadId, res);
 	}
 
 	async sendMsg(threadId: string, msg: string) {
