@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { UsersService, WhatsappClientService } from '../services';
+import { WhatsappClientSession } from '../types';
+
+// TODO: implement a timer to remove the client session after some minutes
+const clients: WhatsappClientSession[] = [];
 
 export async function WhatsappClientMiddleware(
     req: Request,
@@ -11,6 +15,7 @@ export async function WhatsappClientMiddleware(
 
         if (!user) {
             res.status(404).send('User not found');
+            return;
         }
 
         if (!user?.hasWhatsapp || !user.phoneNumber) {
@@ -18,15 +23,41 @@ export async function WhatsappClientMiddleware(
             return;
         }
 
-        const session = user?.id + '_session';
+        const sessionId = user?.id + '_session';
 
-        req.client.whatsapp = await WhatsappClientService.create(
-            session,
+        if (clientAlreadyExist(sessionId)) {
+            const client = getExistentClient(sessionId)!;
+
+            req.client.whatsapp = client;
+            next();
+            return;
+        }
+
+        const client = await WhatsappClientService.create(
+            sessionId,
             user.phoneNumber
         );
+
+        req.client.whatsapp = client;
+        setClient(client, sessionId);
 
         next();
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
+}
+
+function clientAlreadyExist(sessionId: string) {
+    return clients.some((client) => client.sessionId === sessionId);
+}
+
+function getExistentClient(sessionId: string) {
+    return clients.find((client) => client.sessionId === sessionId)?.client;
+}
+
+function setClient(client: WhatsappClientService, sessionId: string) {
+    clients.push({
+        client,
+        sessionId,
+    });
 }
