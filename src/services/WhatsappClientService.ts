@@ -1,4 +1,5 @@
 import { Whatsapp, create } from '@wppconnect-team/wppconnect';
+import { UnreadMessage } from '../types';
 
 export class WhatsappClientService {
     private client: Whatsapp;
@@ -56,6 +57,16 @@ export class WhatsappClientService {
             id: message.id,
             content: message.content,
             isMedia: message.isMedia,
+        }));
+    }
+
+    async getUnreadMessages(): Promise<UnreadMessage[]> {
+        const messages = await this.client.getAllUnreadMessages();
+
+        return messages.map((message) => ({
+            id: message.id.id,
+            content: message.body,
+            from: message.from,
         }));
     }
 }
