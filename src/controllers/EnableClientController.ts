@@ -8,7 +8,7 @@ export class EnableClientController {
     @Post('/whatsapp')
     @Middleware([AuthMiddleware])
     async enableWhatsapp(req: Request, res: Response) {
-        const { phoneNumber } = req.body as { phoneNumber: string };
+        const { phoneNumber } = req.query as { phoneNumber: string };
         const { id, email } = res.locals.user;
 
         if (!phoneNumber) {
