@@ -10,10 +10,10 @@ export async function AuthMiddleware(
     const token = req.headers.authorization;
 
     if (process.env.ENVIRONMENT === 'development') {
-        req.user = {
+        res.locals.user = {
             id: 999,
             name: 'Test Man',
-            email: 'teste@gmail.com',
+            email: 'teste@example.com',
         };
         next();
         return;
@@ -27,7 +27,7 @@ export async function AuthMiddleware(
     try {
         const user = verify(token, process.env.JWT_SECRET!) as UserRequestData;
 
-        req.user = user;
+        res.locals.user = user;
         next();
     } catch (error) {
         res.status(401).send('Unauthorized');

@@ -3,7 +3,7 @@ import { UserRequestData } from './UserRequestData';
 
 export declare global {
     namespace Express {
-        interface Request {
+        interface Locals {
             client: {
                 whatsapp: WhatsappClientService;
             };

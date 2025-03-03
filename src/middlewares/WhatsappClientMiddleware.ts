@@ -11,7 +11,7 @@ export async function WhatsappClientMiddleware(
     next: NextFunction
 ) {
     try {
-        const user = await UsersService.findById(req.user.id);
+        const user = await UsersService.findById(res.locals.user.id);
 
         if (!user) {
             res.status(404).send('User not found');
@@ -28,7 +28,7 @@ export async function WhatsappClientMiddleware(
         if (clientAlreadyExist(sessionId)) {
             const client = getExistentClient(sessionId)!;
 
-            req.client.whatsapp = client;
+            res.locals.client.whatsapp = client;
             next();
             return;
         }
@@ -38,7 +38,7 @@ export async function WhatsappClientMiddleware(
             user.phoneNumber
         );
 
-        req.client.whatsapp = client;
+        res.locals.client.whatsapp = client;
         setClient(client, sessionId);
 
         next();
