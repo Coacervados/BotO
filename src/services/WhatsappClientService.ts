@@ -8,10 +8,6 @@ export class WhatsappClientService {
         this.client = client;
     }
 
-    async connectWithQrCode() {
-        return this.client?.getQrCode();
-    }
-
     public static async create(session?: string, phoneNumber?: string) {
         try {
             const client = await create({
