@@ -4,7 +4,7 @@ import { UserRequestData } from './UserRequestData';
 export declare global {
     namespace Express {
         interface Locals {
-            client: {
+            clients: {
                 whatsapp: WhatsappClientService;
             };
             user: UserRequestData;

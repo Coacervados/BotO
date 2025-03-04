@@ -7,7 +7,7 @@ export class CheckClientController {
     @Post('/whatsapp')
     @Middleware([AuthMiddleware, WhatsappClientMiddleware])
     async checkWhatsappConnection(req: Request, res: Response) {
-        if (res.locals.client.whatsapp) {
+        if (res.locals.clients.whatsapp) {
             res.status(200).send('User is connected');
             return;
         }
