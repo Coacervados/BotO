@@ -10,41 +10,38 @@ export async function WhatsappClientMiddleware(
     res: Response,
     next: NextFunction
 ) {
-    try {
-        const user = await UsersService.findById(res.locals.user.id);
+    const user = await UsersService.findById(res.locals.user.id);
+    res.locals.client = {} as any;
 
-        if (!user) {
-            res.status(404).send('User not found');
-            return;
-        }
+    if (!user) {
+        res.status(404).send('User not found');
+        return;
+    }
 
-        if (!user?.hasWhatsapp || !user.phoneNumber) {
-            next();
-            return;
-        }
+    if (!user?.hasWhatsapp || !user.phoneNumber) {
+        next();
+        return;
+    }
 
-        const sessionId = user?.id + '_session';
+    const sessionId = user?.id + '_session';
 
-        if (clientAlreadyExist(sessionId)) {
-            const client = getExistentClient(sessionId)!;
-
-            res.locals.client.whatsapp = client;
-            next();
-            return;
-        }
-
-        const client = await WhatsappClientService.create(
-            sessionId,
-            user.phoneNumber
-        );
+    if (clientAlreadyExist(sessionId)) {
+        const client = getExistentClient(sessionId)!;
 
         res.locals.client.whatsapp = client;
-        setClient(client, sessionId);
-
         next();
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
+        return;
     }
+
+    const client = await WhatsappClientService.create(
+        sessionId,
+        user.phoneNumber
+    );
+
+    res.locals.client.whatsapp = client;
+    setClient(client, sessionId);
+
+    next();
 }
 
 function clientAlreadyExist(sessionId: string) {
