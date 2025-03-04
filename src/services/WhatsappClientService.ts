@@ -8,13 +8,18 @@ export class WhatsappClientService {
         this.client = client;
     }
 
-    async connect() {
-        return await this.client?.getQrCode();
+    async connectWithQrCode() {
+        return this.client?.getQrCode();
     }
 
     public static async create(session?: string, phoneNumber?: string) {
         try {
-            const client = await create({ session, phoneNumber });
+            const client = await create({
+                session,
+                phoneNumber,
+                disableWelcome: true,
+                waitForLogin: false,
+            });
 
             return new WhatsappClientService(client);
         } catch (error) {
