@@ -1,10 +1,10 @@
-import { Controller, Middleware, Post } from 'damex';
+import { Controller, Middleware, Get } from 'damex';
 import { Request, Response } from 'express';
 import { AuthMiddleware, WhatsappClientMiddleware } from '../middlewares';
 
 @Controller('/check')
 export class CheckClientController {
-    @Post('/whatsapp')
+    @Get('/whatsapp')
     @Middleware([AuthMiddleware, WhatsappClientMiddleware])
     async checkWhatsappConnection(req: Request, res: Response) {
         if (res.locals.clients.whatsapp) {

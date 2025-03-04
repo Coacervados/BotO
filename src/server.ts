@@ -6,6 +6,7 @@ import {
     UsersController,
     CheckClientController,
     EnableClientController,
+    MessagesController,
 } from './controllers';
 
 const app = new Server([
@@ -13,6 +14,7 @@ const app = new Server([
     AuthController,
     CheckClientController,
     EnableClientController,
+    MessagesController,
 ]);
 
 app.use(cors());
