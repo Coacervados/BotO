@@ -8,8 +8,7 @@ export class AuthService {
         name,
         email,
         password,
-        phoneNumber,
-    }: Pick<User, 'email' | 'name' | 'password' | 'phoneNumber'>) {
+    }: Pick<User, 'email' | 'name' | 'password'>) {
         const user = await UsersService.findByEmail(email);
 
         if (user) {
@@ -25,7 +24,6 @@ export class AuthService {
             name,
             email,
             password: hasedPassword,
-            phoneNumber,
         });
 
         const jwt = sign(
@@ -33,7 +31,6 @@ export class AuthService {
                 id: newUser.id,
                 name,
                 email,
-                phoneNumber,
             },
             process.env.JWT_SECRET!
         );
@@ -62,7 +59,6 @@ export class AuthService {
                 id: user.id,
                 name: user.name,
                 email,
-                phoneNumber: user.phoneNumber,
             },
             process.env.JWT_SECRET!
         );

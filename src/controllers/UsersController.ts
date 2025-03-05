@@ -54,8 +54,7 @@ export class UsersController {
             return;
         }
 
-        const updatedUser = await UsersService.update({
-            id,
+        const updatedUser = await UsersService.update(id, {
             ...dataToChange,
         });
 

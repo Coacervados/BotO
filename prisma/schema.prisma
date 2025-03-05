@@ -10,15 +10,18 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  phoneNumber String       @unique
-  name        String
-  password    String
-  OmniChannel OmniChannel?
-  Message     Message[]
-  Chat        Chat[]
-  Customer    Customer[]
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  phoneNumber  String?      @unique
+  name         String
+  password     String
+  hasWhatsapp  Boolean      @default(false)
+  hasInstagram Boolean      @default(false)
+  hasTelegram  Boolean      @default(false)
+  OmniChannel  OmniChannel?
+  Message      Message[]
+  Chat         Chat[]
+  Customer     Customer[]
 }
 
 model Customer {

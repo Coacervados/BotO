@@ -27,20 +27,18 @@ export class UsersService {
     static create({
         email,
         name,
-        phoneNumber,
         password,
-    }: Pick<User, 'email' | 'name' | 'password' | 'phoneNumber'>) {
+    }: Pick<User, 'email' | 'name' | 'password'>) {
         return prisma.user.create({
             data: {
                 email,
                 name,
-                phoneNumber,
                 password,
             },
         });
     }
 
-    static update({ id, email, name, phoneNumber }: Partial<User>) {
+    static update(id: number, { email, name, phoneNumber }: Partial<User>) {
         return prisma.user.update({
             where: { id },
             data: { email, name, phoneNumber },
@@ -50,6 +48,27 @@ export class UsersService {
     static delete(id: number) {
         return prisma.user.delete({
             where: { id },
+        });
+    }
+
+    static enableWhatsapp(id: number) {
+        return prisma.user.update({
+            where: { id },
+            data: { hasWhatsapp: true },
+        });
+    }
+
+    static enableTelegram(id: number) {
+        return prisma.user.update({
+            where: { id },
+            data: { hasInstagram: true },
+        });
+    }
+
+    static enableInstagram(id: number) {
+        return prisma.user.update({
+            where: { id },
+            data: { hasTelegram: true },
         });
     }
 }

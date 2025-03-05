@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { Controller, Post } from 'damex';
 import { Request, Response } from 'express';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services';
 
 @Controller('/auth')
 export class AuthController {
@@ -25,12 +25,10 @@ export class AuthController {
 
     @Post('/register')
     async register(req: Request, res: Response) {
-        const { email, password, name, phoneNumber } = req.body as User;
+        const { email, password, name } = req.body as User;
 
-        if (!email || !password || !name || !phoneNumber) {
-            res.status(400).send(
-                'name, email, password and phoneNumber are required'
-            );
+        if (!email || !password || !name) {
+            res.status(400).send('name, email, password and are required');
             return;
         }
 
@@ -38,7 +36,6 @@ export class AuthController {
             email,
             password,
             name,
-            phoneNumber,
         });
 
         if (error && !jwt) {
