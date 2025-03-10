@@ -1,10 +1,8 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { PrismaClient } from '@prisma/client';
+import { GoogleGenerativeAI } from '@google/generative-ai'
+import { prisma } from '../libs';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-const prisma = new PrismaClient();
 
 export class GeminiService {
     private model: any;
@@ -16,7 +14,7 @@ export class GeminiService {
         });
     }
 
-    async chat(userId: number, custumerId: number, message: string): Promise<string> {
+    async chat(userId: number, customerId: number, message: string): Promise<string> {
 	
 	const history = await prisma.chat.findFirst({
 		where: {userId, customerId},
